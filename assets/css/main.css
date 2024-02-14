@@ -1,0 +1,483 @@
+body {
+    width: 100%;
+    height: 100%;
+    overflow-y: hidden;
+}
+
+.the-block {
+    display: none;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+    z-index: 7;
+    justify-content: center;
+    align-items: center;
+}
+
+.middle {
+    width: 80vw;
+    height: 60vh;
+    background-color: #000000;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+}
+
+.the-block-logo {
+    width: 80%;
+    margin: 0 40px 0 40px;
+}
+
+.the-block-name {
+    position: relative;
+    bottom: 60px;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 50px;
+    margin: 0;
+    text-align: center;
+}
+
+.the-block-rights {
+    display: block;
+    position: relative;
+    margin: 40px 0 0 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-decoration: none;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.main-flex-frame {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.profile-layer {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 6;
+    background-color: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(2px);
+}
+
+.profile-image-box {
+    width: 700px;
+    height: 700px;
+    background-color: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    box-shadow: 0 0 30px black;
+}
+
+.profile-image-topbar {
+    position: absolute;
+    width: 100%;
+    height: 60px;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+}
+
+.profile-image-topbar-exit {
+    border: none;
+    background: transparent;
+    margin: 5px;
+    float: right;
+}
+
+.profile-image {
+    width: 100%;
+    height: 100%;
+}
+
+
+
+.profile-frame {
+    position: relative;
+    background-color: rgb(255, 255, 255);
+    width: 480px;
+    height: 100%;
+    flex: 0 5 auto;
+    z-index: 4;
+}
+
+.top-bar-profile {
+    position: relative;
+    width: 100%;
+    height: 97px;
+    background-color: black;
+    /*#089af7;*/
+    z-index: 5;
+    display: flex;
+}
+
+.top-bar-logo {
+    position: relative;
+    height: 90%;
+    left: 0px;
+    margin: 0;
+}
+
+.top-bar-name {
+    position: relative;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    font-weight: bolder;
+    margin-top: 25px;
+    left: -10px;
+}
+
+#search-menu-button {
+    /*width: 3vw;
+    height: 2vw;*/
+    border: 0;
+    border-radius: 4px;
+    background: black;
+    margin: auto;
+    margin-right: 0;
+    padding: 0;
+}
+
+#menu-button {
+    background: black;
+    border: 0;
+    margin-left: 0;
+}
+
+.search-frame {
+    display: none;
+    /*FLEX*/
+    width: 100%;
+    height: 60px;
+    background-color: black;
+}
+
+#search-cancel {
+    border: 0;
+    border-radius: 4px;
+    padding-left: 15px;
+    background: black;
+    align-self: center;
+}
+
+.search-x-bar:hover {
+    fill: red;
+}
+
+.search-input {
+    width: 80%;
+    height: 70%;
+    margin: 8px;
+    padding: 0 0 0 15px;
+    border-radius: 25px;
+    border: none;
+    outline: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+#search-button {
+    /*width: 3vw;
+    height: 2vw;*/
+    border: 0;
+    border-radius: 4px;
+    padding-right: 12px;
+    background: black;
+    align-self: center;
+}
+
+.profile-finding {
+    background-color: black;
+}
+
+.profile-finding-article {
+    display: flex;
+}
+
+.profile-finding-dp {
+    width: 74px;
+    border-radius: 50%;
+    margin: 10px;
+}
+
+
+
+.all-profiles {
+    width: 100%;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.profile {
+    position: relative;
+    width: 100%;
+    height: 94px;
+    background-color: white;
+    display: flex;
+}
+
+.profile-dp {
+    width: 74px;
+    border-radius: 50%;
+    margin: 10px;
+}
+
+.profile-details {
+    position: relative;
+    width: 80%;
+    height: 86px;
+    top: 7px;
+    background-color: rgb(255, 255, 255);
+    border-bottom: 1px solid rgba(185, 185, 185, 0.6);
+    overflow: hidden;
+}
+
+.profile-usernames {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    font-weight: bolder;
+    margin: 15px 0 10px 5px;
+}
+
+.profile-last-message {
+    width: 95%;
+    overflow: hidden;
+    display: flex;
+}
+
+.last-message {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 500;
+    width: 24ch;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: rgba(0, 0, 0, 0.5);
+    margin: 0;
+    padding: 2px 0 0 10px;
+    flex: 1 0;
+    overflow: hidden;
+}
+
+.last-message-time {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.5);
+    margin: 0;
+}
+
+.top-bar-chat {
+    position: relative;
+    width: 100%;
+    height: 97px;
+    background-color: #000000;
+    z-index: 5;
+    flex: 0 0 auto;
+    display: flex;
+}
+
+.individual-profile {
+    width: 65px;
+    height: 65px;
+    border: 1px solid white;
+    border-radius: 50%;
+    margin: 12px;
+}
+
+.individual-name {
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    margin-left: 5px;
+}
+
+.chat-frame {
+    position: relative;
+    width: 1440px;
+    height: 100vh;
+    flex: 0 10 auto;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-box {
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgb(0, 0, 0), rgb(112, 112, 112));
+    overflow-y: auto;
+}
+
+.chat-input {
+    position: relative;
+    width: 100%;
+    height: 70px;
+    background-color: #000000;
+    bottom: 0px;
+    z-index: 3;
+    flex: 0 0 auto;
+    display: none;
+    /*flex*/
+}
+
+#chat-text {
+    width: 95%;
+    height: 45px;
+    margin: 12px 9px;
+    border-radius: 25px;
+    border: none;
+    outline: 0;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 0 10px 0 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 500;
+    color: white;
+    letter-spacing: 1px;
+}
+
+.chat-send-button {
+    border: none;
+    background-color: #000000;
+    margin: auto;
+    margin-right: 5px;
+}
+
+.received-frame {
+    height: fit-content;
+}
+
+.received-box {
+    width: fit-content;
+    margin: 20px 80px;
+    /*20px 40px*/
+    display: flex;
+}
+
+.received {
+    display: flex;
+    border-radius: 6px;
+    border-top-left-radius: 0;
+    background-color: white;
+}
+
+.sent-frame {
+    display: flex;
+    justify-content: end;
+}
+
+.sent-box {
+    width: fit-content;
+    margin: 20px 80px;
+    /*20px 40px*/
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.sent {
+    display: flex;
+    border-radius: 6px;
+    border-top-right-radius: 0;
+    background-color: #1485ef;
+}
+
+.message {
+    max-width: 700px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 8px 8px 10px 12px;
+}
+
+
+
+.time-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+}
+
+.message-time {
+    position: relative;
+    margin: 0 5px 3px 5px;
+    white-space: nowrap;
+    font-weight: bolder;
+    font-size: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.header-time-frame {
+    display: flex;
+    justify-content: center;
+}
+
+.header-time-box {
+    width: fit-content;
+    margin: 10px;
+    padding: 4px 6px 4px 6px;
+    border-radius: 4px;
+    background-color: white;
+}
+
+.header-time {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.9rem;
+    padding: 1px;
+    margin: 0px;
+}
+
+.white {
+    color: white;
+}
+
+.hide {
+    visibility: hidden;
+}
+
+.continues-rad {
+    border-radius: 6px;
+}
+
+.continues {
+    margin-top: 6px;
+    /*10px*/
+    margin-bottom: 6px;
+}
+
+.first-message {
+    margin-bottom: 0px;
+}
+
+.sent-continues {
+    margin-bottom: 0;
+}
+
+@media only screen and (max-width: 1000px) {
+    .received-box {
+        width: fit-content;
+        margin-left: 40px;
+        /*margin: 20px 40px;*/
+        display: flex;
+    }
+
+    .sent-box {
+        width: fit-content;
+        margin-right: 40px;
+        /*margin: 20px 40px;*/
+        display: flex;
+        flex-direction: row-reverse;
+    }
+
+}
+
+
+@media only screen and (max-width: 640px) {
+    .main-flex-frame {
+        display: none;
+    }
+
+    .the-block {
+        display: flex;
+    }
+}

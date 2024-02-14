@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="/s/css/login.css" />
+    <script src="https://kit.fontawesome.com/5153fbecde.js" crossorigin="anonymous"></script>
+    <script src="/s/js/jquery.js"></script>
+  </head>
+  <body>
+    <div class="the-block">
+      <div class="middle">
+        <img class="the-block-logo" src="/s/assets/logo.png" alt="LOGO" />
+        <p class="the-block-name">vMessenger</p>
+        <a class="the-block-rights" href="https://github.com/vickyarts"
+          >Copyright ©2024 VickyArts</a
+        >
+      </div>
+    </div>
+    <div class="login-box">
+      <form class="login-form" action="/users/login" method="post">
+        {% csrf_token %}
+        <img class="login-logo" src="/s/assets/logo-cropped.png" alt="Logo" />
+        <p class="app-name">vMessenger</p>
+        <div class="email-box">
+          <p class="email-label form-label">EMAIL</p>
+          <input type="text" id="email" name="email" class="email-input" value="" />
+        </div>
+        <div class="pass-box">
+          <p class="pass-label form-label">PASSWORD</p>
+          <input type="password" id="pass" name="pass" class="pass-input" value="" />
+          <a id="forgot" class="forgot-anchor" href="/forgot">Forgot Password?</a>
+        </div>
+        {% if option.account %}
+        <div class="info-box">
+          <span style="color: red; font-family: Arial;"><i class="fa-solid fa-circle-info"></i> Account not found!</span>
+        </div>
+        {% endif %}
+        {% if option.credential %}
+        <div class="info-box">
+          <span style="color: red; font-family: Arial;"><i class="fa-solid fa-circle-info"></i> Wrong Credentials!</span>
+        </div>
+        {% endif %}
+        {% if option.verified %}
+        <div class="info-box">
+          <span style="color: red; font-family: Arial;"><i class="fa-solid fa-circle-info"></i> Account not Verified!</span>
+        </div>
+        {% endif %}
+        <div class="login-interact">
+          <button id="login-btn" type="submit">LOGIN</button>
+          <p class="newuser"
+            >Need account? <a class="newuser-anchor" href="/register">Register</a></p
+          >
+        </div>
+      </form>
+    </div>
+    <script src="/s/js/login.js"></script>
+  </body>
+</html>

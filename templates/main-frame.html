@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>vMessenger</title>
+    <link rel="stylesheet" href="/s/css/normalize.css" />
+    <link rel="stylesheet" href="/s/css/main.css" />
+    <script src="https://kit.fontawesome.com/5153fbecde.js" crossorigin="anonymous"></script>
+    <script src="/s/js/jquery.js"></script>
+  </head>
+  <body>
+    <div class="the-block">
+      <div class="middle">
+        <img class="the-block-logo" src="/s/assets/logo.png" alt="LOGO" />
+        <p class="the-block-name">vMessenger</p>
+        <a class="the-block-rights" href="https://github.com/vickyarts"
+          >Copyright ©2024 VickyArts</a
+        >
+      </div>
+    </div>
+    <div class="logout-container">
+      <div class="logout-confimation">
+        <p class="logout-heading">Logout?</p>
+        <p class="logout-text">Are you sure you want to logout?</p>
+        <button class="logout-cancel" id="logout-cancel"><i class="fa fa-times fa-2x" aria-hidden="true"></i></button>
+        <button class="logout-confirm" id="logout-confirm">Logout</button>
+      </div>
+    </div>
+    <div class="profile-settings-container">
+      Need Editing!
+    </div>
+    <div class="profile-layer">
+      <div class="profile-image-box">
+        <div class="profile-image-topbar">
+          <button class="profile-image-topbar-exit">
+            <i class="fa-solid fa-xmark fa-3x" style="color:white;"></i>
+        </button>
+        </div>
+        <img class="profile-image" alt="Profile Image" src="https://croppola.com/croppola/example-bird2/image.jpg?algorithm=croppola&aspectRatio=1&width=500&thumbnailMaximumWidth=150">
+      </div>
+    </div>
+    <div class="main-flex-frame">
+      <div class="profile-frame">
+        <div class="settings">
+          <button class="profile-settings" id="profile-settings"><i class="fa fa-user" aria-hidden="true"></i> Profile</button>
+          <div class="the-seperation"></div>
+          <button class="logout" id="logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</button>
+        </div>
+        <div class="top-bar-profile">
+          <img class="top-bar-logo" src="/s/assets/logo.png" />
+          <p class="top-bar-name">vMessenger</p>
+          <button id="search-menu-button">
+            <svg
+              viewBox="0 0 24 24"
+              height="24"
+              width="24"
+              preserveAspectRatio="xMidYMid meet"
+              class=""
+              version="1.1"
+              x="0px"
+              y="0px"
+              enable-background="new 0 0 24 24"
+            >
+              <title>search</title>
+              <path
+                fill="white"
+                d="M15.009,13.805h-0.636l-0.22-0.219c0.781-0.911,1.256-2.092,1.256-3.386 c0-2.876-2.332-5.207-5.207-5.207c-2.876,0-5.208,2.331-5.208,5.207s2.331,5.208,5.208,5.208c1.293,0,2.474-0.474,3.385-1.255 l0.221,0.22v0.635l4.004,3.999l1.194-1.195L15.009,13.805z M10.201,13.805c-1.991,0-3.605-1.614-3.605-3.605 s1.614-3.605,3.605-3.605s3.605,1.614,3.605,3.605S12.192,13.805,10.201,13.805z"
+              ></path>
+            </svg>
+          </button>
+          <button id="menu-button">
+            <svg
+              viewBox="0 0 24 24"
+              height="24"
+              width="24"
+              preserveAspectRatio="xMidYMid meet"
+              class=""
+              version="1.1"
+              x="0px"
+              y="0px"
+              enable-background="new 0 0 24 24"
+            >
+              <title>menu</title>
+              <path
+                fill="white"
+                d="M12,7c1.104,0,2-0.896,2-2c0-1.105-0.895-2-2-2c-1.104,0-2,0.894-2,2 C10,6.105,10.895,7,12,7z M12,9c-1.104,0-2,0.894-2,2c0,1.104,0.895,2,2,2c1.104,0,2-0.896,2-2C13.999,9.895,13.104,9,12,9z M12,15 c-1.104,0-2,0.894-2,2c0,1.104,0.895,2,2,2c1.104,0,2-0.896,2-2C13.999,15.894,13.104,15,12,15z"
+              ></path>
+            </svg>
+          </button>
+        </div>
+        <div class="all-profiles">
+          <div class="search-frame">
+            <button id="search-cancel">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 12 12"
+                id="meteor-icon-kit__regular-times-s"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  class="search-x-bar"
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M6 4.5858L10.2929 0.29289C10.6834 -0.09763 11.3166 -0.09763 11.7071 0.29289C12.0976 0.68342 12.0976 1.31658 11.7071 1.70711L7.4142 6L11.7071 10.2929C12.0976 10.6834 12.0976 11.3166 11.7071 11.7071C11.3166 12.0976 10.6834 12.0976 10.2929 11.7071L6 7.4142L1.70711 11.7071C1.31658 12.0976 0.68342 12.0976 0.29289 11.7071C-0.09763 11.3166 -0.09763 10.6834 0.29289 10.2929L4.5858 6L0.29289 1.70711C-0.09763 1.31658 -0.09763 0.68342 0.29289 0.29289C0.68342 -0.09763 1.31658 -0.09763 1.70711 0.29289L6 4.5858z"
+                  fill="white"
+                />
+              </svg>
+            </button>
+            <input
+              type="text"
+              class="search-input"
+              name="search"
+              placeholder="Search"
+            />
+            <!--button id="search-button">
+              <svg
+                viewBox="0 0 24 24"
+                height="24"
+                width="24"
+                preserveAspectRatio="xMidYMid meet"
+                class=""
+                version="1.1"
+                x="0px"
+                y="0px"
+                enable-background="new 0 0 24 24"
+              >
+                <title>search</title>
+                <path
+                  fill="white"
+                  d="M15.009,13.805h-0.636l-0.22-0.219c0.781-0.911,1.256-2.092,1.256-3.386 c0-2.876-2.332-5.207-5.207-5.207c-2.876,0-5.208,2.331-5.208,5.207s2.331,5.208,5.208,5.208c1.293,0,2.474-0.474,3.385-1.255 l0.221,0.22v0.635l4.004,3.999l1.194-1.195L15.009,13.805z M10.201,13.805c-1.991,0-3.605-1.614-3.605-3.605 s1.614-3.605,3.605-3.605s3.605,1.614,3.605,3.605S12.192,13.805,10.201,13.805z"
+                ></path>
+              </svg>
+            </button-->
+          </div>
+          <div class="profile-finding"></div>
+          <div id="profiles-box"></div>
+        </div>
+      </div>
+      <div class="chat-frame">
+        <div class="top-bar-chat">
+          <img class="individual-profile" src="/s/assets/va.png" alt="DP" />
+          <p class="individual-name">Vigneshar</p>
+        </div>
+        <div class="chat-box">
+          <div class="received-frame">
+            <div class="received-box first-message">
+              <svg
+                class="received-tail"
+                viewBox="0 0 8 13"
+                height="13"
+                width="8"
+                preserveAspectRatio="xMidYMid meet"
+                class=""
+                version="1.1"
+                x="0px"
+                y="0px"
+                enable-background="new 0 0 8 13"
+              >
+                <title>tail-in</title>
+                <path
+                  opacity="0.13"
+                  fill="white"
+                  d="M1.533,3.568L8,12.193V1H2.812 C1.042,1,0.474,2.156,1.533,3.568z"
+                ></path>
+                <path
+                  fill="white"
+                  d="M1.533,2.568L8,11.193V0L2.812,0C1.042,0,0.474,1.156,1.533,2.568z"
+                ></path>
+              </svg>
+              <div class="received">
+                <p class="message">Hi everyone!</p>
+                <div class="time-div">
+                  <p class="message-time">7:00 PM</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="received-frame">
+            <div class="received-box continues">
+              <svg
+                class="received-tail hide"
+                viewBox="0 0 8 13"
+                height="13"
+                width="8"
+                preserveAspectRatio="xMidYMid meet"
+                class=""
+                version="1.1"
+                x="0px"
+                y="0px"
+                enable-background="new 0 0 8 13"
+              >
+                <title>tail-in</title>
+                <path
+                  opacity="0.13"
+                  fill="white"
+                  d="M1.533,3.568L8,12.193V1H2.812 C1.042,1,0.474,2.156,1.533,3.568z"
+                ></path>
+                <path
+                  fill="white"
+                  d="M1.533,2.568L8,11.193V0L2.812,0C1.042,0,0.474,1.156,1.533,2.568z"
+                ></path>
+              </svg>
+              <div class="received continues-rad">
+                <p class="message">
+                  I'm <a href="https://github.com/vickyarts">Vigneshar</a>, the creator and developer behind this project.
+                </p>
+                <div class="time-div">
+                  <p class="message-time">7:00 PM</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="received-frame">
+            <div class="received-box continues">
+              <svg
+                class="received-tail hide"
+                viewBox="0 0 8 13"
+                height="13"
+                width="8"
+                preserveAspectRatio="xMidYMid meet"
+                class=""
+                version="1.1"
+                x="0px"
+                y="0px"
+                enable-background="new 0 0 8 13"
+              >
+                <title>tail-in</title>
+                <path
+                  opacity="0.13"
+                  fill="white"
+                  d="M1.533,3.568L8,12.193V1H2.812 C1.042,1,0.474,2.156,1.533,3.568z"
+                ></path>
+                <path
+                  fill="white"
+                  d="M1.533,2.568L8,11.193V0L2.812,0C1.042,0,0.474,1.156,1.533,2.568z"
+                ></path>
+              </svg>
+              <div class="received continues-rad">
+                <p class="message">
+                  I hope you find this project as useful and inspiring as I do. Whether you're here to message, collaborate, or simply explore, I'm thrilled to have you on board!
+                </p>
+                <div class="time-div">
+                  <p class="message-time">7:00 PM</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="received-frame">
+            <div class="received-box continues">
+              <svg
+                class="received-tail hide"
+                viewBox="0 0 8 13"
+                height="13"
+                width="8"
+                preserveAspectRatio="xMidYMid meet"
+                class=""
+                version="1.1"
+                x="0px"
+                y="0px"
+                enable-background="new 0 0 8 13"
+              >
+                <title>tail-in</title>
+                <path
+                  opacity="0.13"
+                  fill="white"
+                  d="M1.533,3.568L8,12.193V1H2.812 C1.042,1,0.474,2.156,1.533,3.568z"
+                ></path>
+                <path
+                  fill="white"
+                  d="M1.533,2.568L8,11.193V0L2.812,0C1.042,0,0.474,1.156,1.533,2.568z"
+                ></path>
+              </svg>
+              <div class="received continues-rad">
+                <p class="message">
+                  If you have any questions, feedback, or ideas for improvement, don't hesitate to <a href="mailto:vigneshar24@protonmail.com">reach out</a>. Together, we can make this project even better!
+                </p>
+                <div class="time-div">
+                  <p class="message-time">7:00 PM</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="chat-input">
+          <input
+            type="text"
+            id="chat-text"
+            name="chat"
+            placeholder="Say Something..."
+          />
+          <button id="send-button" class="chat-send-button">
+            <svg
+              viewBox="0 0 24 24"
+              height="24"
+              width="24"
+              preserveAspectRatio="xMidYMid meet"
+              class=""
+              version="1.1"
+              x="0px"
+              y="0px"
+              enable-background="new 0 0 24 24"
+            >
+              <title>send</title>
+              <path
+                fill="rgba(255,255,255,0.5)"
+                d="M1.101,21.757L23.8,12.028L1.101,2.3l0.011,7.912l13.623,1.816L1.112,13.845 L1.101,21.757z"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <script src="/s/js/main.js"></script>
+  </body>
+</html>
