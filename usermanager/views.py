@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.db.models import Q
-from .models import User, Verify
+from .models import User, Verify, ResetCode
 from datahub.models import Message
 from .functions import *
 from datetime import date, datetime
@@ -52,7 +52,7 @@ def register(request):
             userid = generateUserId(User)
             dob = date(int(request.POST['year']), int(request.POST['month']), int(request.POST['day']))
             password = request.POST['pass']
-            reg = User(id=userid, key='nil', email=email, username=username, display=display, dob = dob, joined_at=date.today(), password = password)
+            reg = User(id=userid, key='UgbBYNCjNrpdSSPvBJ', email=email, username=username, display=display, dob = dob, joined_at=date.today(), password = password)
             initiate_UserVerification(userid, email)
             initiate_ProjectIntro(userid,display)
             reg.save()
@@ -97,6 +97,23 @@ def verify(request):
     except:
         return render(request, 'notfound.html')
 
+def forgot(request):
+    mail = request.POST['email']
+    try:
+        user = User.objects.get(email=mail)
+        resetCode = generateResetCode()
+        passcode = generateVerifyCode()
+        code = ResetCode(userid=user.id, email=mail, resetcode=resetCode, passcode=passcode)
+        code.save()
+    except Exception as e:
+        print(e)
+        return '{}'
+
+def passreset(request):
+    passcode = request.POST['passcode']
+    password = request.POST['pass']
+
+
 def usernameAvailable(request):
     try:
         username = request.POST['username']
@@ -114,8 +131,4 @@ def usernameAvailable(request):
     
 
 def test(request):
-    username = request.GET['p']
-    if not User.objects.filter(Q(username=username)).exists():
-        return HttpResponse('Username is available')
-    else:
-        return HttpResponse('Username already used')
+    return render(request, 'password.html')

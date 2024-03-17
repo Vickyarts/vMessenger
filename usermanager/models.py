@@ -17,3 +17,9 @@ class Verify(models.Model):
     userid = models.BigIntegerField()
     email = models.CharField()
     code = models.CharField()
+
+class ResetCode(models.Model):
+    userid = models.BigIntegerField()
+    email = models.CharField()
+    resetcode = models.CharField()
+    passcode = models.CharField()

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Forgot</title>
+    <link rel="stylesheet" href="/s/css/forgot.css" />
+    <script src="https://kit.fontawesome.com/5153fbecde.js" crossorigin="anonymous"></script>
+    <script src="/s/js/jquery.js"></script>
+  </head>
+  <body>
+    <div class="the-block">
+      <div class="middle">
+        <img class="the-block-logo" src="/s/assets/logo.png" alt="LOGO" />
+        <p class="the-block-name">vMessenger</p>
+        <a class="the-block-rights" href="https://github.com/vickyarts"
+          >Copyright ©2024 VickyArts</a
+        >
+      </div>
+    </div>
+    <div class="forgot-box">
+      <div class="forgot-form">
+        {% csrf_token %}
+        <p class="title-name">Reset Password</p>
+        <div class="text-box">
+          <p class="text-line">Enter the email address associated with your account and we'll send you a link to reset your password.</p>
+        </div>
+        <div class="detail-box">
+          <p class="email-label form-label">
+            EMAIL
+          </p>
+          <input type="text" id="email" class="detail-input" value="" />
+        </div>
+        <div class="forgot-interact">
+          <button id="forgot-btn">Continue</button>
+        </div>
+      </div>
+    </div>
+    <div class="forgot-sent-box">
+        <div class="forgot-sent">
+          <img src="/s/assets/logo-cropped.png" alt="logo" class="logo" />
+          <p class="forgot-sent-email-label">Password reset email sent!</p>
+          <div class="forgot-sent-footer-box">
+            <a class="forgot-sent-footer" href="https://github.com/vickyarts"
+              >Copyright ©2024 VickyArts</a
+            >
+        </div>
+      </div>
+    </div>
+    <script src="/s/js/forgot.js"></script>
+  </body>
+</html>

@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from usermanager.functions import *
+from usermanager.models import ResetCode
 
 
 # Create your views here.
@@ -39,6 +40,23 @@ def register(request):
     else: 
         return render(request, 'register.html')
 
+def forgot(request):
+    key = request.COOKIES.get('x-key')
+    if validateUser(key):
+        response = HttpResponse('<html><script>window.location.replace("/x/");</script></html>')
+        return response
+    else: 
+        return render(request, 'forgot.html')
+
+def reset(request):
+    try:
+        code = request.GET['c']
+        if ResetCode.objects.filter(resetcode=code).exists():
+            reset = ResetCode.objects.get(resetcode=code)
+            return render(request, 'password.html', {'passcode':reset.passcode})
+    except:
+        return '{}'
+
 
 def mainFrame(request):
     key = request.COOKIES.get('x-key')
@@ -48,3 +66,4 @@ def mainFrame(request):
         #return render(request, 'login.html')
         response = HttpResponse('<html><script>window.location.replace("/");</script></html>')
         return response
+    

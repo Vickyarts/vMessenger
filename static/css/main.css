@@ -161,11 +161,58 @@ body {
 
 .profile-settings-container {
     position: absolute;
-    display: none;
+    display: block;
+    /* display: none; */
     width: 100vw;
     height: 100vh;
     z-index: 7;
+    background-color: white;
 }
+
+.profile-settings-topbar {
+    position: relative;
+    width: 100vw;
+    height: 80px;
+    z-index: 1;
+    background-color: #000000;
+}
+
+.profile-settings-back-button {
+    color: white;
+    margin: 15px 15px;
+    background-color: transparent;
+    border: none;
+}
+
+.profile-settings-topbar-head {
+    display: inline-block;
+    position: absolute;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 2.5rem;
+    /*margin: 15px 20px 0 650px;*/
+    margin: 0;
+    top: 17px;
+    right: 20px;
+    color: white;
+}
+
+.profile-settings-details-frame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-setting-details-image {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    margin: 60px 0 10px 0;
+}
+
+.dp-edit-button {
+    border: none;
+}
+
 
 
 .profile-image-box {

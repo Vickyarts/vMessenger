@@ -1,5 +1,6 @@
 var profileStack = '';
 var messageStack = {};
+var profileSearch = {};
 var currentChat = '';
 var headsG = {};
 var last_Gmessages = {};
@@ -22,7 +23,7 @@ $(document).ready(function () {
                         <p class="last-message-time">${time}</p>
                     </div>
                 </div>
-            </article>`);
+                </article>`);
             });
         });
     sendPostRequest('/data/messages')
@@ -474,19 +475,92 @@ $(".individual-profile").on("click", function () {
 $(".search-input").on("input", function () {
     let username = $(".search-input").val();
     if (username != '') {
-        sendPostRequestWithData('/users/usernamecheck', { 'username': username })
-            .then(function (response) {
-                if (response['username'] == '200') {
-                    $(".uname-available").css("display", "block");
-                    $(".uname-not-available").css("display", "none");
+        sendPostRequestWithData('/data/usernamesearch', { 'username': username })
+            .then(function (profiles) {
+                profileSearch = profiles;
+                if (Object.keys(profiles).length === 0) {
+                    $('.profile-finding').empty();
+                    $('.profile-finding').append('<div class="profile-finding-empty"><p class="profile-finding-empty-text">No User Found!</p></div>');
                 } else {
-                    $(".uname-available").css("display", "none");
-                    $(".uname-not-available").css("display", "block");
+                    $('.profile-finding').empty();
+                    let not_first = false;
+                    Object.keys(profiles).forEach(function (keys) {
+                        if (not_first) {
+                            $('.profile-finding').append('<div class="profile-finding-seperation"></div>');
+                        }
+                        $('.profile-finding').append(`
+                        <article class="profile-finding-article">
+                        <img class="profile-finding-dp" src="/asset/profileimage?id=${keys}" alt="DP" />
+                        <div class="profile-finding-details" onclick="addSearchedProfile(${keys})">
+                            <p class="profile-finding-display">${profiles[keys].display}</p>
+                            <p class="profile-finding-username">#${profiles[keys].username}</p>
+                        </div>
+                        </article>
+                        `);
+                        not_first = true;
+                    });
                 }
             });
+    } else {
+        $('.profile-finding').empty();
     }
 });
 
+function addSearchedProfile(id) {
+    $('.search-frame').css('display', 'none');
+    $('.profile-finding').empty();
+    var newProfileStack = {};
+    newProfileStack[id] = { 'username': profileSearch[id].username, 'display': profileSearch[id].display, 'last': 'Say "Hi"', 'last_time': profileSearch[id].last_time };
+    $('#profiles-box').empty();
+    Object.keys(profileStack).forEach(function (key) {
+        newProfileStack[key] = { 'username': profileStack[key].username, 'display': profileStack[key].display, 'last': profileStack[key].last, 'last_time': profileStack[key].last_time };
+    });
+    Object.keys(newProfileStack).forEach(function (key) {
+        let profile = newProfileStack[key];
+        let time = getReadableTime(profile.last_time);
+        $('#profiles-box').append(`<article class= "profile">
+            <img class="profile-dp" src = "/asset/profileimage?id=${key}" alt = "DP" onclick="dpView(${key})" />
+            <div class="profile-details" onclick="populateMessages(${key})">
+                <p class="profile-usernames">${profile.display}</p>
+                <div class="profile-last-message">
+                    <p class="last-message">${profile.last}</p>
+                    <p class="last-message-time">${time}</p>
+                </div>
+            </div>
+            </article>`);
+    });
+    profileStack = newProfileStack;
+}
+
+var isSettingsOpen = false;
+$("#menu-button").on("click", function () {
+    if (!isSettingsOpen) {
+        $('.settings').css('display', 'block');
+        isSettingsOpen = true;
+    } else {
+        $('.settings').css('display', 'none');
+        isSettingsOpen = false;
+    }
+});
+
+$("#logout").on("click", function () {
+    $(".logout-container").css("display", "flex");
+    $(".logout-confimation").css("display", "block");
+});
+
+$("#logout-cancel").on("click", function () {
+    $(".logout-container").css("display", "none");
+    $(".logout-confimation").css("display", "none");
+});
+
+$("#logout-confirm").on("click", function () {
+    sendPostRequest('/users/logout')
+        .then(function (response) {
+            if (response['logout'] == 200) {
+                window.location.replace("/");
+            }
+        });
+});
 
 function sendPostRequest(url) {
     var data = {};
@@ -547,8 +621,11 @@ function getReadableTime(time) {
     let period = '';
     const hour = parseInt(time_vals[0]);
     const minute = time_vals[1];
+    console.log('before half');
     if (hour > 12) {
         period = 'PM';
+        console.log(hour);
+        console.log(period);
         time_string = (hour - 12).toString();
     } else {
         period = 'AM';
@@ -606,6 +683,7 @@ $("#search-menu-button").on("click", function () {
 
 $("#search-cancel").on("click", function () {
     $('.search-frame').css('display', 'none');
+    $('.profile-finding').empty();
 })
 
 $(".profile-image-topbar-exit").on("click", function () {
