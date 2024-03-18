@@ -36,10 +36,17 @@ function sendPostRequestWithData(url, data) {
 $('#reset-btn').click(function () {
     pass = $('#pass').val();
     conpass = $('#conpass').val();
+    passcode = $('#passcode').val();
     if (pass === conpass) {
         console.log(pass);
-        data = { 'pass': pass };
-        /*let x = sendPostRequestWithData('/users/passreset', data);*/
+        data = { 'pass': pass, 'passcode': passcode };
+        let x = sendPostRequestWithData('/users/passwordreset', data);
+        console.log(x);
+        setTimeout(function (response) {
+            if (response === '200') {
+                window.location.replace("/");
+            }
+        }, 2000, x);
         $('.forgot-sent-box').css('display', 'flex');
         $('.forgot-box').css('display', 'none');
     }

@@ -41,7 +41,7 @@ $('#forgot-btn').click(function () {
     mail = $('#email').val();
     if (isEmail(mail)) {
         data = { 'email': mail };
-        /*let x = sendPostRequestWithData('/users/forgot', data);*/
+        let x = sendPostRequestWithData('/users/forgot', data);
         $('.forgot-sent-box').css('display', 'flex');
         $('.forgot-box').css('display', 'none');
     }

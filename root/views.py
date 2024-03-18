@@ -54,8 +54,9 @@ def reset(request):
         if ResetCode.objects.filter(resetcode=code).exists():
             reset = ResetCode.objects.get(resetcode=code)
             return render(request, 'password.html', {'passcode':reset.passcode})
-    except:
-        return '{}'
+    except Exception as e:
+        print(e)
+        return HttpResponse('')
 
 
 def mainFrame(request):

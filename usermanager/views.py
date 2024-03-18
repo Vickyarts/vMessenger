@@ -1,12 +1,16 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.db.models import Q
+from django.core.exceptions import ObjectDoesNotExist
 from .models import User, Verify, ResetCode
 from datahub.models import Message
 from .functions import *
 from datetime import date, datetime
 import json
 
+
+HOST = '127.0.0.1'
+PORT = '8000'
 
 # Create your views here.
 def login(request):
@@ -101,17 +105,31 @@ def forgot(request):
     mail = request.POST['email']
     try:
         user = User.objects.get(email=mail)
-        resetCode = generateResetCode()
+        resetcode = generateResetCode()
         passcode = generateVerifyCode()
-        code = ResetCode(userid=user.id, email=mail, resetcode=resetCode, passcode=passcode)
-        code.save()
+        if ResetCode.objects.filter(email=mail).exists():
+            code = ResetCode(userid=user.id, email=mail, resetcode=resetcode, passcode=passcode)
+            code.save()
+            url = f'http://{HOST}:{PORT}/reset?c={resetcode}'
+            content = f'<p style="font-family:Arial;font-size:14px;"> An vMessenger account has create on this e-mail.<br><br> <b>Please verify this email belongs to you.</b><br><br> <a href="{url}" style="color:378CE7;" target="_blank">Verify email</a><br><br> Verification ensures we can safely assist you in case of sign-in issues or suspicious activity.<br><br> Thank you,<br> vMessenger Team<br> <p>'
+            sendEmail("vMessenger", "Password Reset", mail, content)
+        return HttpResponse('{}')
     except Exception as e:
         print(e)
-        return '{}'
+        return HttpResponse('{}')
 
 def passreset(request):
     passcode = request.POST['passcode']
     password = request.POST['pass']
+    try:
+        reset = ResetCode.objects.get(passcode=passcode)
+        user = User.objects.get(id=reset.userid)
+        user.password = password
+        user.save()
+        return HttpResponse('200')
+    except Exception as e:
+        print(e)
+        return HttpResponse('404')
 
 
 def usernameAvailable(request):
