@@ -38,15 +38,14 @@ $('#reset-btn').click(function () {
     conpass = $('#conpass').val();
     passcode = $('#passcode').val();
     if (pass === conpass) {
-        console.log(pass);
         data = { 'pass': pass, 'passcode': passcode };
-        let x = sendPostRequestWithData('/users/passwordreset', data);
-        console.log(x);
-        setTimeout(function (response) {
-            if (response === '200') {
-                window.location.replace("/");
-            }
-        }, 2000, x);
+        sendPostRequestWithData('/users/passwordreset', data)
+            .then(function (response) {
+                if (response === 200) {
+                    console.log(response);
+                    window.location.replace("/");
+                }
+            });
         $('.forgot-sent-box').css('display', 'flex');
         $('.forgot-box').css('display', 'none');
     }

@@ -73,6 +73,9 @@ def register(request):
 def initiate_UserVerification(userid, email):
     code = generateVerifyCode()
     pact =  Verify(userid=userid, email=email, code=code)
+    url = f'http://{HOST}:{PORT}/users/verify?c={code}'
+    content = f'<p style="font-family:Arial;font-size:14px;"> An vMessenger account has create on this e-mail.<br><br> <b>Please verify this email belongs to you.</b><br><br> <a href="{url}" style="color:378CE7;" target="_blank">Verify email</a><br><br> Verification ensures we can safely assist you in case of sign-in issues or suspicious activity.<br><br> Thank you,<br> vMessenger Team<br> <p>'
+    sendEmail("vMessenger", "Email Verification", email, content)
     pact.save()
 
 def initiate_ProjectIntro(id,name):
@@ -107,13 +110,21 @@ def forgot(request):
         user = User.objects.get(email=mail)
         resetcode = generateResetCode()
         passcode = generateVerifyCode()
-        if ResetCode.objects.filter(email=mail).exists():
+        try:
+            reset = ResetCode.objects.get(email=mail)
+            reset.delete()
             code = ResetCode(userid=user.id, email=mail, resetcode=resetcode, passcode=passcode)
             code.save()
             url = f'http://{HOST}:{PORT}/reset?c={resetcode}'
-            content = f'<p style="font-family:Arial;font-size:14px;"> An vMessenger account has create on this e-mail.<br><br> <b>Please verify this email belongs to you.</b><br><br> <a href="{url}" style="color:378CE7;" target="_blank">Verify email</a><br><br> Verification ensures we can safely assist you in case of sign-in issues or suspicious activity.<br><br> Thank you,<br> vMessenger Team<br> <p>'
+            content = f'<p style="font-family:Arial;font-size:14px;"> Password reset has been initiated on this account.<br><br> <b>Click below to reset you password.</b><br><br> <a href="{url}" style="color:378CE7;" target="_blank">Reset</a><br><br>Make sure your password is strong to ensure security.<br><br> Thank you,<br> vMessenger Team<br> <p>'
             sendEmail("vMessenger", "Password Reset", mail, content)
-        return HttpResponse('{}')
+        except:
+            code = ResetCode(userid=user.id, email=mail, resetcode=resetcode, passcode=passcode)
+            code.save()
+            url = f'http://{HOST}:{PORT}/reset?c={resetcode}'
+            content = f'<p style="font-family:Arial;font-size:14px;"> Password reset has been initiated on this account.<br><br> <b>Click below to reset you password.</b><br><br> <a href="{url}" style="color:378CE7;" target="_blank">Reset</a><br><br>Make sure your password is strong to ensure security.<br><br> Thank you,<br> vMessenger Team<br> <p>'
+            sendEmail("vMessenger", "Password Reset", mail, content)
+            return HttpResponse('{}')
     except Exception as e:
         print(e)
         return HttpResponse('{}')
@@ -126,6 +137,7 @@ def passreset(request):
         user = User.objects.get(id=reset.userid)
         user.password = password
         user.save()
+        reset.delete()
         return HttpResponse('200')
     except Exception as e:
         print(e)
