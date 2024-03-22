@@ -83,7 +83,9 @@ def getMessaged(id):
 
 def postMessage(request):
     xkey = request.POST['x-key']
+    print(xkey)
     if validateUser(xkey):
+        print('inside')
         message_id = generateMessageId(UnseenMessage, 'unseen')
         sender_id = getUserId(xkey)
         receiver_id = request.POST['id']
@@ -123,7 +125,6 @@ def getProfilesByUsername(request):
     xkey = request.POST['x-key']
     if validateUser(xkey):
         try:
-            #username = request.GET['username']
             username = request.POST['username']
             client_id = getUserId(xkey)
             data = {}

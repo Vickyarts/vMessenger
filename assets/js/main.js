@@ -82,6 +82,8 @@ function populateMessages(id) {
 
     Object.keys(messageStack[id.toString()]).forEach(function (key) {
         let message = messageStack[id.toString()][key];
+        console.log(key);
+        console.log(message);
         let time = getReadableTime(message['sent_time']);
         if (head != getReadableDate(message['sent_day'])) {
             head = getReadableDate(message['sent_day']);

@@ -82,6 +82,8 @@ function populateMessages(id) {
 
     Object.keys(messageStack[id.toString()]).forEach(function (key) {
         let message = messageStack[id.toString()][key];
+        console.log(key);
+        console.log(message);
         let time = getReadableTime(message['sent_time']);
         if (head != getReadableDate(message['sent_day'])) {
             head = getReadableDate(message['sent_day']);
@@ -260,11 +262,11 @@ $('#send-button').on("click", function () {
             let datetime = getCurrentDateandTime();
             message_data = { 'id': currentChat, 'text': text, 'time': datetime['time'], 'day': datetime['date'] };
             insertMessage({ 'action': 'sent', 'text': text, 'sent_time': datetime['time'], 'sent_day': datetime['date'] });
-            let x = sendPostRequestWithData('/data/postmessage', message_data)
+            let x = sendPostRequestWithData('/data/postmessage', message_data);
             $('#chat-text').val("");
         }
     }
-})
+});
 
 $("#chat-text").keypress(function (event) {
     if (event.key == 'Enter') {
@@ -530,6 +532,7 @@ function addSearchedProfile(id) {
             </article>`);
     });
     profileStack = newProfileStack;
+    messageStack[id] = {};
 }
 
 var isSettingsOpen = false;
