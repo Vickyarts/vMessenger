@@ -8,4 +8,5 @@ urlpatterns = [
     path('postmessage', postMessage, name="PostMessage"),
     path('messageupdates', messageUpdates, name="MessageUpdates"),
     path('usernamesearch', getProfilesByUsername, name="GetProfileByUsername"),
+    path('userid', getProfileById, name="GetProfileById")
 ]

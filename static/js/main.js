@@ -5,6 +5,7 @@ var currentChat = '';
 var headsG = {};
 var last_Gmessages = {};
 var updatePause = false;
+var notiStack = {};
 
 
 $(document).ready(function () {
@@ -19,8 +20,9 @@ $(document).ready(function () {
                 <div class="profile-details" onclick="populateMessages(${key})">
                     <p class="profile-usernames">${profiles[key].display}</p>
                     <div class="profile-last-message">
-                        <p class="last-message">${profiles[key].last}</p>
-                        <p class="last-message-time">${time}</p>
+                        <p id="${key}lmsg" class="last-message">${profiles[key].last}</p>
+                        <p id="${key}ltime" class="last-message-time">${time}</p>
+                        <div id="${key}notify" class="msg-notify">1</div>
                     </div>
                 </div>
                 </article>`);
@@ -31,6 +33,11 @@ $(document).ready(function () {
             messageStack = stack;
         });
     setTimeout(messageUpdates, 5000);
+    Notification.requestPermission(function (permission) {
+        if (permission === "granted") {
+            console.log("Notification Request Granted!");
+        }
+    });
 });
 
 function messageUpdates() {
@@ -48,31 +55,78 @@ function messageUpdates() {
     loop();
 }
 
+
+
 function insertMessageUpdates(updateStack) {
     if (updateStack != undefined) {
         Object.keys(updateStack).forEach(function (key) {
+            let count = 0;
+            let newChat = false;
             if (messageStack.hasOwnProperty(key)) {
+                let last_msg = {};
                 Object.keys(updateStack[key]).forEach(function (subkeys) {
-                    messageStack[key][subkeys] = updateStack[key][subkeys];
+                    messageStack[key][subkeys.toString()] = updateStack[key][subkeys];
+                    last_msg = updateStack[key][subkeys];
+                    count++;
                 });
+                if (notiStack[key] == undefined) {
+                    notiStack[key] = count;
+                } else if (notiStack[key] == 0) {
+                    notiStack[key] = count;
+                } else {
+                    notiStack[key] = notiStack[key] + count;
+                }
+                sendPostRequestWithData('/data/userid', { 'id': key })
+                    .then(function (profile) {
+                        showNotification(profile.display, last_msg.text, `/asset/profileimage?id=${key}`, last_msg.sent_time, () => { });
+                    });
             } else {
+                newChat = true;
                 messageStack[key] = {};
+                let last_msg = {};
                 Object.keys(updateStack[key]).forEach(function (subkeys) {
                     messageStack[key][subkeys] = updateStack[key][subkeys];
+                    last_msg = updateStack[key][subkeys];
+                    count++;
                 });
+                if (notiStack[key] == undefined) {
+                    notiStack[key] = count;
+                } else if (notiStack[key] == 0) {
+                    notiStack[key] = count;
+                } else {
+                    notiStack[key] = notiStack[key] + count;
+                }
+                sendPostRequestWithData('/data/userid', { 'id': key })
+                    .then(function (profile) {
+                        showNotification(profile.display, last_msg.text, `/asset/profileimage?id=${key}`, last_msg.sent_time, () => { });
+                        profile.last = last_msg.text;
+                        profile.last_time = last_msg.sent_time;
+                        addNewProfile(profile);
+                    });
             }
             if (key == currentChat) {
                 Object.keys(updateStack[key]).forEach(function (subkeys) {
                     insertMessage(updateStack[key][subkeys]);
                 });
+            } else {
+                if (newChat) {
+                    setTimeout(() => {
+                        $(`#${key}notify`).text(notiStack[key].toString());
+                        $(`#${key}notify`).css('display', 'flex');
+                    }, 1000);
+                } else {
+                    $(`#${key}notify`).text(notiStack[key].toString());
+                    $(`#${key}notify`).css('display', 'flex');
+                }
             }
-        })
+        });
     }
 }
 
 
 function populateMessages(id) {
     updatePause = true;
+    $(`#${id}notify`).css('display', 'none');
     currentChat = id;
     initiateProfileBox(id);
     $('.chat-input').css('display', 'flex');
@@ -82,8 +136,6 @@ function populateMessages(id) {
 
     Object.keys(messageStack[id.toString()]).forEach(function (key) {
         let message = messageStack[id.toString()][key];
-        console.log(key);
-        console.log(message);
         let time = getReadableTime(message['sent_time']);
         if (head != getReadableDate(message['sent_day'])) {
             head = getReadableDate(message['sent_day']);
@@ -254,6 +306,25 @@ function populateMessages(id) {
     updatePause = false;
 }
 
+function generateRandomNumber(length) {
+    let result = '';
+    const characters = '0123456789';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
+
+function profileLast(id, msg, time) {
+    let lmsg = "#" + id + "lmsg";
+    let ltime = "#" + id + "ltime";
+    $(lmsg).text(msg);
+    $(ltime).text(getReadableTime(time));
+    profileStack[id].last = msg;
+    profileStack[id].last_time = time;
+}
+
 
 $('#send-button').on("click", function () {
     if (currentChat != '') {
@@ -263,6 +334,9 @@ $('#send-button').on("click", function () {
             message_data = { 'id': currentChat, 'text': text, 'time': datetime['time'], 'day': datetime['date'] };
             insertMessage({ 'action': 'sent', 'text': text, 'sent_time': datetime['time'], 'sent_day': datetime['date'] });
             let x = sendPostRequestWithData('/data/postmessage', message_data);
+            let rid = generateRandomNumber(12);
+            messageStack[currentChat][rid] = { 'action': 'sent', 'text': text, 'sent_time': datetime['time'], 'sent_day': datetime['date'] };
+            profileLast(currentChat, text, datetime['time']);
             $('#chat-text').val("");
         }
     }
@@ -276,12 +350,17 @@ $("#chat-text").keypress(function (event) {
                 let datetime = getCurrentDateandTime();
                 message_data = { 'id': currentChat, 'text': text, 'time': datetime['time'], 'day': datetime['date'] };
                 insertMessage({ 'action': 'sent', 'text': text, 'sent_time': datetime['time'], 'sent_day': datetime['date'] });
-                let x = sendPostRequestWithData('/data/postmessage', message_data)
+                let x = sendPostRequestWithData('/data/postmessage', message_data);
+                let rid = generateRandomNumber(12);
+                messageStack[currentChat][rid] = { 'action': 'sent', 'text': text, 'sent_time': datetime['time'], 'sent_day': datetime['date'] };
+                profileLast(currentChat, text, datetime['time']);
                 $('#chat-text').val("");
             }
         }
     }
 });
+
+
 
 function insertMessage(message) {
     let head = headsG[currentChat];
@@ -508,6 +587,35 @@ $(".search-input").on("input", function () {
     }
 });
 
+
+
+function addNewProfile(profile) {
+    $('.search-frame').css('display', 'none');
+    $('.profile-finding').empty();
+    var newProfileStack = {};
+    newProfileStack[profile.id] = { 'username': profile.username, 'display': profile.display, 'last': profile.last, 'last_time': profile.last_time };
+    $('#profiles-box').empty();
+    Object.keys(profileStack).forEach(function (key) {
+        newProfileStack[key] = { 'username': profileStack[key].username, 'display': profileStack[key].display, 'last': profileStack[key].last, 'last_time': profileStack[key].last_time };
+    });
+    Object.keys(newProfileStack).forEach(function (key) {
+        let profile = newProfileStack[key];
+        let time = getReadableTime(profile.last_time);
+        $('#profiles-box').append(`<article class= "profile">
+            <img class="profile-dp" src = "/asset/profileimage?id=${key}" alt = "DP" onclick="dpView(${key})" />
+            <div class="profile-details" onclick="populateMessages(${key})">
+                <p class="profile-usernames">${profile.display}</p>
+                <div class="profile-last-message">
+                    <p id="${key}lmsg" class="last-message">${profile.last}</p>
+                    <p id="${key}ltime" class="last-message-time">${time}</p>
+                    <div id="${key}notify" class="msg-notify">1</div>
+                </div>
+            </div>
+            </article>`);
+    });
+    profileStack = newProfileStack;
+}
+
 function addSearchedProfile(id) {
     $('.search-frame').css('display', 'none');
     $('.profile-finding').empty();
@@ -525,8 +633,9 @@ function addSearchedProfile(id) {
             <div class="profile-details" onclick="populateMessages(${key})">
                 <p class="profile-usernames">${profile.display}</p>
                 <div class="profile-last-message">
-                    <p class="last-message">${profile.last}</p>
-                    <p class="last-message-time">${time}</p>
+                    <p id="${key}lmsg" class="last-message">${profile.last}</p>
+                    <p id="${key}ltime" class="last-message-time">${time}</p>
+                    <div id="${key}notify" class="msg-notify">1</div>
                 </div>
             </div>
             </article>`);
@@ -547,6 +656,8 @@ $("#menu-button").on("click", function () {
 });
 
 $("#logout").on("click", function () {
+    $('.settings').css('display', 'none');
+    isSettingsOpen = false;
     $(".logout-container").css("display", "flex");
     $(".logout-confimation").css("display", "block");
 });
@@ -565,6 +676,16 @@ $("#logout-confirm").on("click", function () {
         });
 });
 
+
+function showNotification(head, body, image, xtime, action) {
+    let time = getReadableTime(xtime);
+    var notification = new Notification(head, {
+        body: body,
+        icon: image,
+    });
+    notification.onclick = action;
+    setTimeout(() => notification.close(), 5 * 1000);
+}
 function sendPostRequest(url) {
     var data = {};
     const csrfToken = getCookie('csrftoken');
@@ -624,17 +745,14 @@ function getReadableTime(time) {
     let period = '';
     const hour = parseInt(time_vals[0]);
     const minute = time_vals[1];
-    console.log('before half');
     if (hour > 12) {
         period = 'PM';
-        console.log(hour);
-        console.log(period);
         time_string = (hour - 12).toString();
     } else {
         period = 'AM';
         time_string = hour.toString();
     }
-    return time_string + ':' + minute.toString() + ' ' + period;
+    return time_string + ':' + minute + ' ' + period;
 }
 
 function getReadableDate(date) {
@@ -663,6 +781,9 @@ function getCurrentDateandTime() {
     var currentYear = currentDate.getFullYear();
     var currentHour = currentDate.getHours();
     var currentMinute = currentDate.getMinutes();
+    if (currentMinute.length == 1) {
+        currentMinute = '0' + currentMinute
+    }
     var currentSecond = currentDate.getSeconds();
     var date = currentYear + "-" + currentMonth + "-" + currentDay;
     var time = currentHour + ":" + currentMinute + ":" + currentSecond;
