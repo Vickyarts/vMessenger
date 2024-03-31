@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.db.models import Q
 from django.core.exceptions import ObjectDoesNotExist
 from .models import User, Verify, ResetCode
-from datahub.models import Message
+from datahub.models import Message, UnseenMessage
 from .functions import *
 from datetime import date, datetime
 import json
@@ -81,14 +81,14 @@ def initiate_UserVerification(userid, email):
 def initiate_ProjectIntro(id,name):
     current_date = date.today()
     current_time = datetime.now().time()
-    x1_id = generateMessageId(Message, 'message')
-    x1 = Message(id=x1_id, sender=999999999999,receiver=id,text='Hi '+name+'!', sent_date=current_date, sent_time=current_time)
+    x1_id = generateMessageId(UnseenMessage, 'unseen')  #generateMessageId(Message, 'message')
+    x1 = UnseenMessage(id=x1_id, sender=999999999999,receiver=id,text='Hi '+name+'!', sent_date=current_date, sent_time=current_time)
     x1.save()
-    x2_id = generateMessageId(Message, 'message')
-    x2 = Message(id=x2_id, sender=999999999999,receiver=id,text='Welcome to vMessenger!', sent_date=current_date, sent_time=current_time)
+    x2_id = generateMessageId(UnseenMessage, 'unseen')  #generateMessageId(Message, 'message')
+    x2 = UnseenMessage(id=x2_id, sender=999999999999,receiver=id,text='Welcome to vMessenger!', sent_date=current_date, sent_time=current_time)
     x2.save()
-    x3_id = generateMessageId(Message, 'message')
-    x3 = Message(id=x3_id, sender=999999999999,receiver=id,text=" Feel free to explore and discover all its features. If you have any questions or need assistance, don't hesitate to <a href='mailto:vigneshar24@protonmail.com'>reach out</a>. Enjoy exploring!", sent_date=current_date, sent_time=current_time)
+    x3_id = generateMessageId(UnseenMessage, 'unseen')  #generateMessageId(Message, 'message')
+    x3 = UnseenMessage(id=x3_id, sender=999999999999,receiver=id,text=" Feel free to explore and discover all its features. If you have any questions or need assistance, don't hesitate to <a href='mailto:vigneshar24@protonmail.com'>reach out</a>. Enjoy exploring!", sent_date=current_date, sent_time=current_time)
     x3.save()
 
 

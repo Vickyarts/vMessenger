@@ -111,9 +111,7 @@ def getMessaged(id):
 
 def postMessage(request):
     xkey = request.POST['x-key']
-    print(xkey)
     if validateUser(xkey):
-        print('inside')
         message_id = generateMessageId(UnseenMessage, 'unseen')
         sender_id = getUserId(xkey)
         receiver_id = request.POST['id']
