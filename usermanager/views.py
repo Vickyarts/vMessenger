@@ -9,8 +9,7 @@ from datetime import date, datetime
 import json
 
 
-HOST = '127.0.0.1'
-PORT = '8000'
+HOST = 'vmessenger.in'
 
 # Create your views here.
 def login(request):
@@ -73,7 +72,7 @@ def register(request):
 def initiate_UserVerification(userid, email):
     code = generateVerifyCode()
     pact =  Verify(userid=userid, email=email, code=code)
-    url = f'http://{HOST}:{PORT}/users/verify?c={code}'
+    url = f'https://{HOST}/users/verify?c={code}'
     content = f'<p style="font-family:Arial;font-size:14px;"> An vMessenger account has create on this e-mail.<br><br> <b>Please verify this email belongs to you.</b><br><br> <a href="{url}" style="color:378CE7;" target="_blank">Verify email</a><br><br> Verification ensures we can safely assist you in case of sign-in issues or suspicious activity.<br><br> Thank you,<br> vMessenger Team<br> <p>'
     sendEmail("vMessenger", "Email Verification", email, content)
     pact.save()
@@ -115,13 +114,13 @@ def forgot(request):
             reset.delete()
             code = ResetCode(userid=user.id, email=mail, resetcode=resetcode, passcode=passcode)
             code.save()
-            url = f'http://{HOST}:{PORT}/reset?c={resetcode}'
+            url = f'https://{HOST}/reset?c={resetcode}'
             content = f'<p style="font-family:Arial;font-size:14px;"> Password reset has been initiated on this account.<br><br> <b>Click below to reset you password.</b><br><br> <a href="{url}" style="color:378CE7;" target="_blank">Reset</a><br><br>Make sure your password is strong to ensure security.<br><br> Thank you,<br> vMessenger Team<br> <p>'
             sendEmail("vMessenger", "Password Reset", mail, content)
         except:
             code = ResetCode(userid=user.id, email=mail, resetcode=resetcode, passcode=passcode)
             code.save()
-            url = f'http://{HOST}:{PORT}/reset?c={resetcode}'
+            url = f'https://{HOST}/reset?c={resetcode}'
             content = f'<p style="font-family:Arial;font-size:14px;"> Password reset has been initiated on this account.<br><br> <b>Click below to reset you password.</b><br><br> <a href="{url}" style="color:378CE7;" target="_blank">Reset</a><br><br>Make sure your password is strong to ensure security.<br><br> Thank you,<br> vMessenger Team<br> <p>'
             sendEmail("vMessenger", "Password Reset", mail, content)
             return HttpResponse('{}')

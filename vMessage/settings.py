@@ -33,7 +33,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
-CSRF_TRUSTED_ORIGINS = ['https://vmessenger']
+CSRF_TRUSTED_ORIGINS = ['https://vmessenger.in']
 
 # Application definition
 

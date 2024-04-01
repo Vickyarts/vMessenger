@@ -701,7 +701,7 @@ function sendPostRequest(url) {
             },
             data: data,
             success: function (response) {
-                /*console.log(response);*/
+                console.log(response);
                 resolve(JSON.parse(response));
 
             },
@@ -727,7 +727,7 @@ function sendPostRequestWithData(url, data) {
             },
             data: data,
             success: function (response) {
-                /*console.log(response);*/
+                console.log(response);
                 resolve(JSON.parse(response));
 
             },
