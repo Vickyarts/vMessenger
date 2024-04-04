@@ -68,3 +68,13 @@ def mainFrame(request):
         response = HttpResponse('<html><script>window.location.replace("/");</script></html>')
         return response
     
+
+def terms(request):
+    return render(request, 'terms.html')
+
+def policy(request):
+    return render(request, 'policy.html')
+
+
+def notfound(request, exception):
+    return render(request, 'notfound.html', status=404)
