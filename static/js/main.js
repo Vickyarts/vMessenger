@@ -306,14 +306,23 @@ function populateMessages(id) {
     updatePause = false;
 }
 
-function generateRandomNumber(length) {
-    let result = '';
-    const characters = '0123456789';
-    const charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+function generateRandomNumber(id) {
+    let last_id = 0;
+    Object.keys(messageStack[id.toString()]).forEach(function (key) {
+        last_id = parseInt(key, 0);
+    });
+    if (last_id == 0) {
+        let result = '';
+        const characters = '0123456789';
+        const charactersLength = characters.length;
+        for (let i = 0; i < 12; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    } else {
+        last_id = last_id + 1;
+        return last_id.toString();
     }
-    return result;
 }
 
 function profileLast(id, msg, time) {
@@ -334,7 +343,7 @@ $('#send-button').on("click", function () {
             message_data = { 'id': currentChat, 'text': text, 'time': datetime['time'], 'day': datetime['date'] };
             insertMessage({ 'action': 'sent', 'text': text, 'sent_time': datetime['time'], 'sent_day': datetime['date'] });
             let x = sendPostRequestWithData('/data/postmessage', message_data);
-            let rid = generateRandomNumber(12);
+            let rid = generateRandomNumber(currentChat);
             messageStack[currentChat][rid] = { 'action': 'sent', 'text': text, 'sent_time': datetime['time'], 'sent_day': datetime['date'] };
             profileLast(currentChat, text, datetime['time']);
             $('#chat-text').val("");
@@ -351,7 +360,7 @@ $("#chat-text").keypress(function (event) {
                 message_data = { 'id': currentChat, 'text': text, 'time': datetime['time'], 'day': datetime['date'] };
                 insertMessage({ 'action': 'sent', 'text': text, 'sent_time': datetime['time'], 'sent_day': datetime['date'] });
                 let x = sendPostRequestWithData('/data/postmessage', message_data);
-                let rid = generateRandomNumber(12);
+                let rid = generateRandomNumber(currentChat);
                 messageStack[currentChat][rid] = { 'action': 'sent', 'text': text, 'sent_time': datetime['time'], 'sent_day': datetime['date'] };
                 profileLast(currentChat, text, datetime['time']);
                 $('#chat-text').val("");
@@ -648,10 +657,26 @@ var isSettingsOpen = false;
 $("#menu-button").on("click", function () {
     if (!isSettingsOpen) {
         $('.settings').css('display', 'block');
+        var position = $("#menu-button").offset();
+        var width = $(".top-bar-profile").width();
+        if (width > 470) {
+            $('.settings').css('left', position.left - 80);
+        } else {
+            $('.settings').css('left', position.left - 40);
+        }
+        $('.settings').css('top', position.top + 60);
         isSettingsOpen = true;
     } else {
         $('.settings').css('display', 'none');
         isSettingsOpen = false;
+        var position = $("#menu-button").offset();
+        var width = $(".top-bar-profile").width();
+        if (width > 470) {
+            $('.settings').css('left', position.left - 80);
+        } else {
+            $('.settings').css('left', position.left - 40);
+        }
+        $('.settings').css('top', position.top + 60);
     }
 });
 
