@@ -120,6 +120,10 @@
           that such additional attribution notices cannot be construed
           as modifying the License.
 
+      (e) The Work and any Derivative Works thereof may not be used for commercial 
+          purposes. For purposes of this License, "commercial purposes" means any 
+          activity that is intended to generate a profit or other financial benefit.
+
       You may add Your own copyright statement to Your modifications and
       may provide additional or different license terms and conditions
       for use, reproduction, or distribution of Your modifications, or
@@ -186,7 +190,7 @@
       same "printed page" as the copyright notice for easier
       identification within third-party archives.
 
-   Copyright [yyyy] [name of copyright owner]
+   Copyright [2024] [Vigneshar S]
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
